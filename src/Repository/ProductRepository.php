@@ -19,32 +19,50 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $price
+     * @return Product[]
+     */
+    public function findAllGreaterThanPrice($price): array
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        // Va automatiquement faire un select sur la table product "p" est un alias 
 
-    /*
-    public function findOneBySomeField($value): ?Product
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.price > :price')
+            ->setParameter('price', $price)
+            ->orderBy('p.price', 'ASC')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
     }
-    */
+
+    /**
+     * @param $price
+     * @return Product
+     */
+    public function findOneGreaterThanPrice($price): ?Product
+    {
+        // On peut aussi retourner un seul produit par exemple
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->where('p.price > :price')
+            ->setParameter('price', $price)
+            ->orderBy('p.price', 'ASC')
+            ->getQuery();
+
+        return $queryBuilder->setMaxResults(1)->getOneOrNullResult();
+    }
+
+    /**
+     * @param $price
+     * @return Product
+     */
+    public function testPrix(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.price', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
 }

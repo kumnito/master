@@ -9,6 +9,8 @@ use App\Form\ProductType;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\ProductRepository;
+
 
 class ProductController extends AbstractController
 {
@@ -26,6 +28,20 @@ class ProductController extends AbstractController
             'product' => $product,
         ]);
     }
+
+    /**
+     * @Route("/product/desc", name="product_desc")
+     */
+    public function testPrix(ProductRepository $pro)
+    {
+        $product = $pro->testPrix();
+
+        return $this->render('product/index.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
+    
 
     /**
      * @Route("/product/edit/{id}", name="product_edit")
