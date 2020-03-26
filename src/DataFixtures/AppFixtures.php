@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Product;
+use App\Entity\User;
+
 use Faker;
 
 class AppFixtures extends Fixture
@@ -12,6 +14,15 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
+
+        for ($i = 0; $i < 100; $i++) {
+            $user = new User();
+            $user->setUsername($faker->email);
+            $manager->persist($user);
+            $users[]=$user;
+
+        }
+
         $compteur = 0;
 
         for ($i = 0; $i < 100; $i++) {
@@ -23,6 +34,7 @@ class AppFixtures extends Fixture
             $product->setDescription($faker->text);
             $product->setPrice( $faker->numberBetween(10, 10000) );
             $product->setSlug("IPhone-".$compteur);
+            $product->setUser($faker->randomElement($users));
 
             $manager->persist($product);
         }
