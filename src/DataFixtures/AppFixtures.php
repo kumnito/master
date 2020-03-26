@@ -6,6 +6,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Product;
 use App\Entity\User;
+use App\Entity\Tag;
+
 
 use Faker;
 
@@ -14,6 +16,13 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
+
+        for ($i = 0; $i < 10; $i++) {
+            $tag = new Tag;
+            $tag->setName('Tag'.$i);
+            $manager->persist($tag);
+
+        }
 
         for ($i = 0; $i < 100; $i++) {
             $user = new User();

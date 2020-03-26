@@ -15,6 +15,15 @@
                             <h5 class="card-title">{{ pro.name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ pro.price }} $</h6>
                             <p class="card-text">{{ pro.description }}</p>
+                            <p class="card-text">Vendeur : {{ pro.user.username }}</p>
+                            <p class="card-text">Tags :
+                                {% for tag in pro.tags %} 
+                                    {{ tag.name }},
+                                {% else %}
+                                    Aucun
+                                {% endfor %}
+                            </p>
+
                             <a href=" {{path('product_show', {slug: pro.slug}) }}"
                                 class="btn btn-secundary">Voir</a>
                             <a href=" {{path('product_edit', {id: pro.id}) }}"
